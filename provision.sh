@@ -16,13 +16,11 @@ install_sysvinit_script() {
 }
 
 update_apt_sources() {
+    # nodejs
     apt-key adv --keyserver keyserver.ubuntu.com --recv C7917B12
-
     echo 'deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu precise main' | tee /etc/apt/sources.list.d/10nodejs.list
-
     # Update apt-get to get 10gen stable packages
     apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-
     echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list
 }
 
@@ -34,13 +32,10 @@ fi
 if [[ $ping_result == *bytes?from* ]]; then
     if [ ! -e "/etc/vagrant-provisioned" ]; then
 	echo "Starting Vagrant provisioning process..."
-
 	set_hostname
-
 	update_apt_sources
 
 	apt-get update --assume-yes
-
 	apt-get install -y make g++ git curl vim libcairo2-dev libav-tools nfs-common portmap mongodb-10gen=2.4.10 nodejs libcap2-bin
 
 	# Pin to the exact version above
@@ -76,4 +71,3 @@ EOF
     echo "More info at     : https://github.com/ammmir/node-oauth2-provider"
     echo "-----------------------------------------------------------------"
 fi
-
